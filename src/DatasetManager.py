@@ -1,4 +1,5 @@
-from numpy import ndarray
+from cupy import ndarray
+import cupy as np
 from keras.datasets import mnist
 
 class Dataset:
@@ -6,8 +7,8 @@ class Dataset:
     Y: ndarray
 
     def __init__(self, x: ndarray, y: ndarray) -> None:
-        self.X = x
-        self.Y = y
+        self.X = np.asarray(x)
+        self.Y = np.asarray(y)
         pass
 
 class DatasetManager:
@@ -21,9 +22,9 @@ class DatasetManager:
         self.testing_data = Dataset(self._process_x(testing_x), testing_y)
 
     def _process_x(self, x: ndarray) -> ndarray:
-        # x = x >= 128
-        # x = x.reshape(x.shape[0], 784)
-        # x = x.T
+        x = x >= 128
+        x = x.reshape(x.shape[0], 784)
+        x = x.T
 
         return x
 

@@ -1,7 +1,7 @@
 import tkinter as tk
 from src.Constants import Constants
 from src.NNService import NNService
-import numpy as np
+import cupy as np
 
 class EngineController:
     CANVAS_SIZE: int = Constants.IMAGE_SIZE * 10

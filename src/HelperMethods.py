@@ -1,5 +1,5 @@
-from numpy import ndarray
-import numpy as np
+from cupy import ndarray
+import cupy as np
 
 class HelperMethods:
 
@@ -18,6 +18,6 @@ class HelperMethods:
     
     @staticmethod # type: ignore
     def one_hot(x: ndarray) -> ndarray:
-        one_hot_X = np.zeros((x.size, x.max() + 1))
+        one_hot_X = np.zeros((x.size, int(x.max()) + 1))
         one_hot_X[np.arange(x.size), x] = 1
         return one_hot_X.T

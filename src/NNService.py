@@ -1,7 +1,7 @@
 from src.NeuralNetwork import NeuralNetwork
 from src.DatasetManager import Dataset
-import numpy as np
-from numpy import ndarray
+import cupy as np
+from cupy import ndarray
 
 class NNService:
 
@@ -10,7 +10,7 @@ class NNService:
     
     def make_predictions(self, X: ndarray) -> ndarray:
         results = self.neural_network.propagate_forwards(X)
-        return np.argmax(results.A2, 0)
+        return np.argmax(results.A3, 0)
 
     def calculate_accuracy(self) -> float:
         predictions = self.make_predictions(self.testing_data.X)
