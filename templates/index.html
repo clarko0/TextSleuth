@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Fabric.js Drawing</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.5.0/fabric.min.js"></script>
+</head>
+
+<body>
+    <canvas id="canvas" width="800" height="600" style="border:1px solid #000;"></canvas>
+    <div>
+        <button onclick="makePredictions()">Make Predictions</button>
+        <button onclick="enableEraser()">Eraser</button>
+    </div>
+    <script>
+        const canvas = new fabric.Canvas('canvas');
+        canvas.backgroundColor = 'white';
+        canvas.isDrawingMode = true;
+        canvas.freeDrawingBrush.width = 15;
+        canvas.freeDrawingBrush.color = 'black';
+
+        function enableEraser() {
+            canvas.freeDrawingBrush.color = 'white';
+        }
+
+        async function makePredictions() {
+            const canvasElement = document.querySelector('canvas');
+            const image = new Image();
+
+            await fetch("/calculate-predictions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    image: canvasElement.toDataURL()
+                })
+            }).then(response => response.json())
+                .then(data => {
+                    alert(data.predictions);
+                });
+        }
+    </script>
+</body>
+
+</html>

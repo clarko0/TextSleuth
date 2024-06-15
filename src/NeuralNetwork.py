@@ -131,25 +131,24 @@ class NeuralNetwork:
         predictions = self._list_current_predictions()
         return np.sum(predictions == self.Y) / self.Y.size
     
-    def gradient_descent(self, learning_rate: float, epochs: int, log_progress: bool = False) -> None:
+    def gradient_descent(self, learning_rate: float, iterations: int, log_progress: bool = False) -> None:
         self.learning_rate = learning_rate
         progress_bar = ""
         bar_size = 30
-        for i in range(epochs):
+        for current_iteration in range(iterations):
             start_time = time.time()
             self._propagate_forwards()
             self._propagate_backwards()
             self._update_params()
 
-            progress = (i + 1) / epochs
-            bar_points = math.floor(progress * bar_size)
-            accuracy = self._calculate_current_accuracy()
-            accuracy = round(float(accuracy), 2)  # Convert accuracy to float before rounding
-            progress_bar = (bar_points * "=") + ((bar_size - bar_points) * "_")
-            d_time = time.time() - start_time
-            d_time = d_time * 1000
-            d_time = round(d_time)
-
-            if log_progress:
+            if log_progress and current_iteration % 50 == 0:
+                progress = (current_iteration + 1) / iterations
+                bar_points = math.floor(progress * bar_size)
+                accuracy = self._calculate_current_accuracy()
+                accuracy = round(float(accuracy), 2)  # Convert accuracy to float before rounding
+                progress_bar = (bar_points * "=") + ((bar_size - bar_points) * "_")
+                d_time = time.time() - start_time
+                d_time = d_time * 1000
+                d_time = round(d_time)
                 os.system('cls')
-                print(f"Accuracy : {accuracy} | [{progress_bar}] | Epoch : {i + 1} / {epochs} | Epoch Took : {d_time}ms")
+                print(f"Accuracy : {accuracy} | [{progress_bar}] | Iteration : {current_iteration + 1} / {iterations} | Latest Iteration Took : {d_time}ms")
